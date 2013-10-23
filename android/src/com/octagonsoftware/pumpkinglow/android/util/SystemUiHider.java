@@ -57,12 +57,12 @@ public abstract class SystemUiHider
     /**
      * The activity associated with this UI hider object.
      */
-    protected Activity mActivity;
+    protected Activity _activity;
 
     /**
      * The view on which {@link View#setSystemUiVisibility(int)} will be called.
      */
-    protected View mAnchorView;
+    protected View _anchorView;
 
     /**
      * The current UI hider flags.
@@ -71,12 +71,12 @@ public abstract class SystemUiHider
      * @see #FLAG_HIDE_NAVIGATION
      * @see #FLAG_LAYOUT_IN_SCREEN_OLDER_DEVICES
      */
-    protected int mFlags;
+    protected int _flags;
 
     /**
      * The current visibility callback.
      */
-    protected OnVisibilityChangeListener mOnVisibilityChangeListener = sDummyListener;
+    protected OnVisibilityChangeListener _onVisibilityChangeListener = _dummyListener;
 
     /**
      * Creates and returns an instance of {@link SystemUiHider} that is
@@ -105,9 +105,9 @@ public abstract class SystemUiHider
     }
 
     protected SystemUiHider(Activity activity, View anchorView, int flags) {
-        mActivity = activity;
-        mAnchorView = anchorView;
-        mFlags = flags;
+        _activity = activity;
+        _anchorView = anchorView;
+        _flags = flags;
     }
 
     /**
@@ -150,16 +150,16 @@ public abstract class SystemUiHider
     public void setOnVisibilityChangeListener(OnVisibilityChangeListener listener)
     {
         if (listener == null) {
-            listener = sDummyListener;
+            listener = _dummyListener;
         }
 
-        mOnVisibilityChangeListener = listener;
+        _onVisibilityChangeListener = listener;
     }
 
     /**
      * A dummy no-op callback for use when there is no other listener set.
      */
-    private static OnVisibilityChangeListener sDummyListener = new OnVisibilityChangeListener() {
+    private static OnVisibilityChangeListener _dummyListener = new OnVisibilityChangeListener() {
         @Override
         public void onVisibilityChange(boolean visible)
         {

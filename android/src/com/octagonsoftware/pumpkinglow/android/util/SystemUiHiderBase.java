@@ -14,7 +14,7 @@ public class SystemUiHiderBase extends SystemUiHider
      * Whether or not the system UI is currently visible. This is a cached value
      * from calls to {@link #hide()} and {@link #show()}.
      */
-    private boolean mVisible = true;
+    private boolean _visible = true;
 
     /**
      * Constructor not intended to be called by clients. Use
@@ -27,8 +27,8 @@ public class SystemUiHiderBase extends SystemUiHider
     @Override
     public void setup()
     {
-        if ((mFlags & FLAG_LAYOUT_IN_SCREEN_OLDER_DEVICES) == 0) {
-            mActivity.getWindow().setFlags(
+        if ((_flags & FLAG_LAYOUT_IN_SCREEN_OLDER_DEVICES) == 0) {
+            _activity.getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
@@ -37,26 +37,26 @@ public class SystemUiHiderBase extends SystemUiHider
     @Override
     public boolean isVisible()
     {
-        return mVisible;
+        return _visible;
     }
 
     @Override
     public void hide()
     {
-        if ((mFlags & FLAG_FULLSCREEN) != 0) {
-            mActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if ((_flags & FLAG_FULLSCREEN) != 0) {
+            _activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
-        mOnVisibilityChangeListener.onVisibilityChange(false);
-        mVisible = false;
+        _onVisibilityChangeListener.onVisibilityChange(false);
+        _visible = false;
     }
 
     @Override
     public void show()
     {
-        if ((mFlags & FLAG_FULLSCREEN) != 0) {
-            mActivity.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if ((_flags & FLAG_FULLSCREEN) != 0) {
+            _activity.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
-        mOnVisibilityChangeListener.onVisibilityChange(true);
-        mVisible = true;
+        _onVisibilityChangeListener.onVisibilityChange(true);
+        _visible = true;
     }
 }

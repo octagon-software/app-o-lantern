@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * Main activity for the Pumpkin Glow Android app.
+ * Shows a glowing screen and plays sound effects.
  * 
+ * @author markroth8
  * @see SystemUiHider
  */
 public class PumpkinGlowActivity extends Activity
@@ -44,7 +46,10 @@ public class PumpkinGlowActivity extends Activity
     /**
      * The instance of the {@link SystemUiHider} for this activity.
      */
-    private SystemUiHider mSystemUiHider;
+    private SystemUiHider _systemUiHider;
+    
+    /** Reference to the view that renders the glow effect */
+    private PumpkinGlowView _pumpkinGlowView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,15 +60,16 @@ public class PumpkinGlowActivity extends Activity
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
+        _pumpkinGlowView = (PumpkinGlowView) contentView;
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
-        mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
-        mSystemUiHider.setup();
-        mSystemUiHider.setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
+        _systemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
+        _systemUiHider.setup();
+        _systemUiHider.setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
             // Cached values.
-            int mControlsHeight;
-            int mShortAnimTime;
+            int _controlsHeight;
+            int _shortAnimTime;
 
             @Override
             @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -74,13 +80,13 @@ public class PumpkinGlowActivity extends Activity
                     // (Honeycomb MR2 and later), use it to animate the
                     // in-layout UI controls at the bottom of the
                     // screen.
-                    if (mControlsHeight == 0) {
-                        mControlsHeight = controlsView.getHeight();
+                    if (_controlsHeight == 0) {
+                        _controlsHeight = controlsView.getHeight();
                     }
-                    if (mShortAnimTime == 0) {
-                        mShortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+                    if (_shortAnimTime == 0) {
+                        _shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
                     }
-                    controlsView.animate().translationY(visible ? 0 : mControlsHeight).setDuration(mShortAnimTime);
+                    controlsView.animate().translationY(visible ? 0 : _controlsHeight).setDuration(_shortAnimTime);
                 } else {
                     // If the ViewPropertyAnimator APIs aren't
                     // available, simply show or hide the in-layout UI
@@ -101,17 +107,15 @@ public class PumpkinGlowActivity extends Activity
             public void onClick(View view)
             {
                 if (TOGGLE_ON_CLICK) {
-                    mSystemUiHider.toggle();
+                    _systemUiHider.toggle();
                 } else {
-                    mSystemUiHider.show();
+                    _systemUiHider.show();
                 }
             }
         });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        // Keep screen on while this activity is running
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
@@ -124,13 +128,26 @@ public class PumpkinGlowActivity extends Activity
         // are available.
         delayedHide(100);
     }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        _pumpkinGlowView.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PumpkinGlowView view = (PumpkinGlowView) findViewById(R.id.fullscreen_content);
+        _pumpkinGlowView.onResume();
+    }
 
     /**
      * Touch listener to use for in-layout UI controls to delay hiding the
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+    View.OnTouchListener _delayHideTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent)
         {
@@ -141,12 +158,12 @@ public class PumpkinGlowActivity extends Activity
         }
     };
 
-    Handler mHideHandler = new Handler();
-    Runnable mHideRunnable = new Runnable() {
+    Handler _hideHandler = new Handler();
+    Runnable _hideRunnable = new Runnable() {
         @Override
         public void run()
         {
-            mSystemUiHider.hide();
+            _systemUiHider.hide();
         }
     };
 
@@ -156,7 +173,7 @@ public class PumpkinGlowActivity extends Activity
      */
     private void delayedHide(int delayMillis)
     {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+        _hideHandler.removeCallbacks(_hideRunnable);
+        _hideHandler.postDelayed(_hideRunnable, delayMillis);
     }
 }
