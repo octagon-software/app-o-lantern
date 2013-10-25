@@ -1,4 +1,4 @@
-package com.octagonsoftware.pumpkinglow.android;
+package com.octagonsoftware.appolantern.android;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -9,22 +9,22 @@ import android.util.AttributeSet;
  *
  * @author markroth8
  */
-public class PumpkinGlowView
+public class AppOLanternView
     extends GLSurfaceView
 {
-    public PumpkinGlowView(Context context, AttributeSet attrs) {
+    public AppOLanternView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public PumpkinGlowView(Context context) {
+    public AppOLanternView(Context context) {
         super(context);
         init();
     }
     
     private void init() {
         setEGLContextClientVersion(2);
-        setRenderer(new PumpkinGlowRenderer());
+        setRenderer(new AppOLanternRenderer());
         setRenderMode(RENDERMODE_CONTINUOUSLY);
     }
 }

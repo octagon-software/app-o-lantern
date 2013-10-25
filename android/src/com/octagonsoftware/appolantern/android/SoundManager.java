@@ -1,4 +1,4 @@
-package com.octagonsoftware.pumpkinglow.android;
+package com.octagonsoftware.appolantern.android;
 
 import android.content.Context;
 import android.media.AudioManager;

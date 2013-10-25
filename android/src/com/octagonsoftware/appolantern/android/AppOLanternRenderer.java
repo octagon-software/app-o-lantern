@@ -1,4 +1,4 @@
-package com.octagonsoftware.pumpkinglow.android;
+package com.octagonsoftware.appolantern.android;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -7,12 +7,12 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 /**
- * OpenGL renderer for PumpkinGlowView.
+ * OpenGL renderer for AppOLanternView.
  * 
  * @author markroth8
- * @see PumpkinGlowView
+ * @see AppOLanternView
  */
-public class PumpkinGlowRenderer
+public class AppOLanternRenderer
     implements GLSurfaceView.Renderer
 {
     /** Total amount of time it takes to complete the glow animation */

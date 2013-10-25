@@ -1,4 +1,4 @@
-package com.octagonsoftware.pumpkinglow.android.util;
+package com.octagonsoftware.appolantern.android.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

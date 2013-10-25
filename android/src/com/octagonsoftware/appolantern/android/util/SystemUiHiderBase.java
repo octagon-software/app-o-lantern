@@ -1,4 +1,4 @@
-package com.octagonsoftware.pumpkinglow.android.util;
+package com.octagonsoftware.appolantern.android.util;
 
 import android.app.Activity;
 import android.view.View;

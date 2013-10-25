@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0099cc"
-    tools:context=".PumpkinGlowActivity" >
+    tools:context=".AppOLanternActivity" >
 
     <!--
          The primary full-screen view. This can be replaced with whatever view
@@ -11,7 +11,7 @@
          TextureView, etc.
     -->
 
-    <com.octagonsoftware.pumpkinglow.android.PumpkinGlowView
+    <com.octagonsoftware.appolantern.android.AppOLanternView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

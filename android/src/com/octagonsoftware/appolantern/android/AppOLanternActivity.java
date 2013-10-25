@@ -1,4 +1,4 @@
-package com.octagonsoftware.pumpkinglow.android;
+package com.octagonsoftware.appolantern.android;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -9,16 +9,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.octagonsoftware.pumpkinglow.android.util.SystemUiHider;
+import com.octagonsoftware.appolantern.android.util.SystemUiHider;
+import com.octagonsoftware.appolantern.android.R;
 
 /**
- * Main activity for the Pumpkin Glow Android app.
+ * Main activity for the App-O-Lantern Android app.
  * Shows a glowing screen and plays sound effects.
  * 
  * @author markroth8
  * @see SystemUiHider
  */
-public class PumpkinGlowActivity 
+public class AppOLanternActivity 
     extends Activity 
 {
     /**
@@ -45,7 +46,7 @@ public class PumpkinGlowActivity
     private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
 
     private SystemUiHider _systemUiHider;
-    private PumpkinGlowView _pumpkinGlowView;
+    private AppOLanternView _appOLanternView;
     private SoundManager _soundManager;
     private SoundTimer _soundTimer;
 
@@ -54,11 +55,11 @@ public class PumpkinGlowActivity
     {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_pumpkin_glow);
+        setContentView(R.layout.activity_app_o_lantern);
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
-        _pumpkinGlowView = (PumpkinGlowView) contentView;
+        _appOLanternView = (AppOLanternView) contentView;
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
@@ -134,7 +135,7 @@ public class PumpkinGlowActivity
     @Override
     protected void onPause() {
         super.onPause();
-        _pumpkinGlowView.onPause();
+        _appOLanternView.onPause();
         _soundTimer.stop();
         _soundManager.stop();
     }
@@ -143,7 +144,7 @@ public class PumpkinGlowActivity
     protected void onResume() {
         super.onResume();
         _soundTimer.start();
-        _pumpkinGlowView.onResume();
+        _appOLanternView.onResume();
     }
 
     /**
