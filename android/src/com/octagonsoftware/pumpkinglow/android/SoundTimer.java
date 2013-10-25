@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 public class SoundTimer
 {
     // Minimum and maximum delay between sound effects
-    private static final int MIN_SOUND_DELAY = 20000;
-    private static final int MAX_SOUND_DELAY = 50000;
+    private static final int MIN_SOUND_DELAY = 10000;
+    private static final int MAX_SOUND_DELAY = 20000;
 
     private static final int[] SOUNDS = {
         R.raw.chainsaw,
