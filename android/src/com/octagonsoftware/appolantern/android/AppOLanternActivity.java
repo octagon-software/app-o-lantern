@@ -49,12 +49,43 @@ public class AppOLanternActivity
     private AppOLanternView _appOLanternView;
     private SoundManager _soundManager;
     private SoundTimer _soundTimer;
+    private boolean _paused = true;
+    private boolean _eulaAccepted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_blank);
+        Eula eula = new Eula(this);
+        if (!eula.hasBeenShown()) {
+            eula.show();
+        } else {
+            onEulaAccepted();
+        }
+    }
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState)
+    {
+        super.onPostCreate(savedInstanceState);
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        _paused = true;
+        updatePauseStatus();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        _paused = false;
+        updatePauseStatus();
+    }
+    
+    protected void onEulaAccepted() {
         setContentView(R.layout.activity_app_o_lantern);
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
@@ -119,32 +150,15 @@ public class AppOLanternActivity
         // Set up audio
         _soundManager = new SoundManager(this);
         _soundTimer = new SoundTimer(_soundManager);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState)
-    {
-        super.onPostCreate(savedInstanceState);
+        
+        // Whether the app is paused or resumed, update the current status (this starts or stops timers, etc.)
+        _eulaAccepted = true;
+        updatePauseStatus();
 
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100);
-    }
-    
-    @Override
-    protected void onPause() {
-        super.onPause();
-        _appOLanternView.onPause();
-        _soundTimer.stop();
-        _soundManager.stop();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        _soundTimer.start();
-        _appOLanternView.onResume();
     }
 
     /**
@@ -168,7 +182,9 @@ public class AppOLanternActivity
         @Override
         public void run()
         {
-            _systemUiHider.hide();
+            if (_eulaAccepted) {
+                _systemUiHider.hide();
+            }
         }
     };
 
@@ -180,5 +196,18 @@ public class AppOLanternActivity
     {
         _hideHandler.removeCallbacks(_hideRunnable);
         _hideHandler.postDelayed(_hideRunnable, delayMillis);
+    }
+    
+    private void updatePauseStatus() {
+        if (_eulaAccepted) {
+            if (_paused) {
+                _appOLanternView.onPause();
+                _soundTimer.stop();
+                _soundManager.stop();
+            } else {
+                _soundTimer.start();
+                _appOLanternView.onResume();
+            }
+        }
     }
 }

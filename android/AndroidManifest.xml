@@ -7,7 +7,10 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-    <uses-feature android:required="true" android:glEsVersion="0x00020000"/>
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -24,6 +27,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.octagonsoftware.appolantern.android.BlankActivity"
+            android:label="@string/title_activity_blank" >
         </activity>
     </application>
 
